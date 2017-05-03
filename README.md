@@ -16,7 +16,7 @@ docker run --name jira-postgres -e POSTGRES_USER=jira -e POSTGRES_PASSWORD='***'
 # How to use this image
 Run the following command:
 ```
-docker docker run -d --name atlassian-jira --link jira-postgres:pgjira -p 8080:8080 atlassian-jira
+docker run -d --name atlassian-jira --link jira-postgres:pgjira -p 8080:8080 atlassian-jira
 ```
 When asked for DB information as part of the setup, use the following:
 Host: pgjira
