@@ -1,8 +1,8 @@
 #!/bin/sh
 
 echo Stopping existing container
-docker stop $(docker ps -a -q  --filter ancestor=postgres:9.5.6-alpine)
-docker stop $(docker ps -a -q  --filter ancestor=atlassian-jira)
+docker stop atlassian-jira-postgres
+docker stop atlassian-jira
 
 echo Copying and running service
 yes | cp docker-atlassian-jira-postgres.service /etc/systemd/system/.
