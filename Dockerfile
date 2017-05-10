@@ -16,7 +16,7 @@ RUN mkdir -p "${JIRA_HOME}"
 RUN mkdir -p "${JIRA_HOME}/caches/indexes"
 RUN mkdir -p "${JIRA_INSTALL}/conf/Catalina"
 RUN wget -O "atlassian-jira-software-${JIRA_VERSION}.tar.gz" --no-verbose "https://www.atlassian.com/software/jira/downloads/binary/atlassian-jira-software-${JIRA_VERSION}.tar.gz"
-RUN wget -O "mysql-connector-java-5.1.38.tar.gz" --no-verbose "https://dev.mysql.com/get/Downloads/Connector-J/mysql-connector-java-5.1.38.tar.gz"
+RUN wget -O "mysql-connector-java-${MYSQL_VERSION}.tar.gz" --no-verbose "https://dev.mysql.com/get/Downloads/Connector-J/mysql-connector-java-${MYSQL_VERSION}.tar.gz"
 RUN wget -O "postgresql-${POSTGRES_VERSION}.jar" "https://jdbc.postgresql.org/download/postgresql-${POSTGRES_VERSION}.jar"
 RUN tar -xzvf "atlassian-jira-software-${JIRA_VERSION}.tar.gz" -C "${JIRA_INSTALL}" --strip-components=1
 RUN tar -xzvf "mysql-connector-java-${MYSQL_VERSION}.tar.gz" -C "${JIRA_INSTALL}/lib" --strip-components=1

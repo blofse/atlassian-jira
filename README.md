@@ -7,22 +7,32 @@ Any feedback let me know - its all welcome!
 
 This is based heavily from [this git hub repo](https://github.com/cptactionhank/docker-atlassian-jira), however with some good additions.
 
-# Pre-reqs
-JIRA postgres must be setup prior to running this. To do so perform the following command, replacing *** with your own password:
-```
-docker run --name jira-postgres -e POSTGRES_USER=jira -e POSTGRES_PASSWORD='***' -d postgres:9.5.6-alpine
-```
+# Pre-req
+
+Before running this docker image, please [clone / download the repo](https://github.com/blofse/atlassian-jira), inlcuding the script files.
 
 # How to use this image
-Run the following command:
+## Initialise
+Run the following command, replacing *** with your desired db password:
 ```
-docker run -d --name atlassian-jira --link jira-postgres:pgjira -p 8080:8080 atlassian-jira
+initial_start.sh "***"
 ```
-When asked for DB information as part of the setup, use the following:
+This will setup two containers: 
+* atlassian-jira-postgres - a container to store your jira db data
+* atlassian-jira - the container containing the jira server
+
+You can now use the jira installer to import existing data. However to access the DB initially, the following details are required:
+
 Host: pgjira
 User: jira
 Pass: *** Entered from earlier
 (leave the rest the same and hit "Test Connection")
 
-# Running as a service
-An example service file is provided as part of the repo to run from CentOS 7 + systemd
+## (optional) setting up as a service
+
+Once initialised and perhaps migrated, the docker container can then be run as a service. 
+Included in the repo is the service for centos 7 based os's and to install run:
+```
+copy_install_and_start_as_service.sh
+```
+
