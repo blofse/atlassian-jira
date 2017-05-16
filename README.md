@@ -15,24 +15,42 @@ Before running this docker image, please [clone / download the repo](https://git
 ## Initialise
 Run the following command, replacing *** with your desired db password:
 ```
-initial_start.sh "***"
+./initial_start.sh '***'
 ```
 This will setup two containers: 
 * atlassian-jira-postgres - a container to store your jira db data
 * atlassian-jira - the container containing the jira server
 
-You can now use the jira installer to import existing data. However to access the DB initially, the following details are required:
+## Using the JIRA setup
+
+For either setup, to access the DB initially, the following details are required:
 
 Host: pgjira
+Database: jira
 User: jira
 Pass: *** Entered from earlier
 (leave the rest the same and hit "Test Connection")
+
+If you are setting up a new instance, you can either use the default or custom setup option on the initial page.
+
+If you are importing an existing instance of JIRA, you will need to select the custom uption, setup the DB and then when prompted for the company information, run the import tool provided with this github repo then use the import tool supplied with JIRA.
+
+To export an existing JIRA, use the JIRA export tool to export the instance as an xml.zip file.
+Then, place that file in the following location:
+* imports/xml-backup.zip
+
+Then run the following script to import that data into the JIRA container (when at the "Set up application properties" screen of the JIRA setup):
+```
+./migrate_existing_db.sh
+```
+Then, once at the application properties screen, hit "import your data" rather than enter in your company details. Under file name, use "xml-backup.zip" as the file name an enter in your license as required and select your "Outgoing Mail" option.
+Once entered, hit "Import" and the JIRA web interface should begin importing your old JIRA data.
 
 ## (optional) setting up as a service
 
 Once initialised and perhaps migrated, the docker container can then be run as a service. 
 Included in the repo is the service for centos 7 based os's and to install run:
 ```
-copy_install_and_start_as_service.sh
+./copy_install_and_start_as_service.sh
 ```
 
