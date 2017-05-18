@@ -6,6 +6,6 @@ if [ ! -f imports/xml-backup.zip ]; then
 fi
 
 echo About to copy file
-docker cp imports/xml-backup.zip atlassian-jira:/var/atlassian/jira/import/xml-backup.zip
+docker cp imports/xml-backup.zip atlassian-jira:/var/atlassian/application-data/jira/import/xml-backup.zip
 
 echo Done!

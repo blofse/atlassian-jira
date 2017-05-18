@@ -4,22 +4,27 @@ FROM openjdk:8-alpine
 ENV JIRA_VERSION=7.3.6 \
     MYSQL_VERSION=5.1.38 \
     POSTGRES_VERSION=9.4.1212 \
-    JIRA_HOME=/var/atlassian/jira \
+    JIRA_HOME=/var/atlassian/application-data/jira \
     JIRA_INSTALL=/opt/atlassian/jira
 
 # Install Atlassian JIRA and helper tools and setup initial home
 # directory structure.
 RUN set -x
-RUN apk add --no-cache libressl wget
-RUN apk add --no-cache libressl tar
+RUN apk add --no-cache wget
+RUN apk add --no-cache libressl 
+RUN apk add --no-cache tar
+RUN apk add --no-cache bash
+
 RUN mkdir -p "${JIRA_HOME}"
 RUN mkdir -p "${JIRA_HOME}/caches/indexes"
 RUN mkdir -p "${JIRA_INSTALL}/conf/Catalina"
+
 RUN wget -O "atlassian-jira-software-${JIRA_VERSION}.tar.gz" --no-verbose "https://www.atlassian.com/software/jira/downloads/binary/atlassian-jira-software-${JIRA_VERSION}.tar.gz"
 RUN wget -O "mysql-connector-java-${MYSQL_VERSION}.tar.gz" --no-verbose "https://dev.mysql.com/get/Downloads/Connector-J/mysql-connector-java-${MYSQL_VERSION}.tar.gz"
 RUN wget -O "postgresql-${POSTGRES_VERSION}.jar" "https://jdbc.postgresql.org/download/postgresql-${POSTGRES_VERSION}.jar"
 RUN tar -xzvf "atlassian-jira-software-${JIRA_VERSION}.tar.gz" -C "${JIRA_INSTALL}" --strip-components=1
 RUN tar -xzvf "mysql-connector-java-${MYSQL_VERSION}.tar.gz" -C "${JIRA_INSTALL}/lib" --strip-components=1
+
 RUN mv "postgresql-${POSTGRES_VERSION}.jar" "${JIRA_INSTALL}/lib/postgresql-${POSTGRES_VERSION}.jar"
 RUN sed --in-place "s/java version/openjdk version/g" "${JIRA_INSTALL}/bin/check-java.sh"
 RUN echo -e "\njira.home=${JIRA_HOME}" >> "${JIRA_INSTALL}/atlassian-jira/WEB-INF/classes/jira-application.properties"
@@ -42,15 +47,10 @@ RUN chmod -R 700 "${JIRA_INSTALL}/work"
 # Expose default HTTP connector port.
 EXPOSE 8080
 
-# Create the volumes and mount
-VOLUME ["/var/atlassian/jira", "/opt/atlassian/jira/logs"]
+VOLUME [${JIRA_HOME}]
 
-# Set the default working directory as the installation directory.
 WORKDIR ${JIRA_HOME}
-# COPY "docker-entrypoint.sh" "/"
-# ENTRYPOINT ["/docker-entrypoint.sh"]
 
-# Run Atlassian JIRA as a foreground process by default.
 USER jira
 ENV JVM_SUPPORT_RECOMMENDED_ARGS -Datlassian.plugins.enable.wait=300
-CMD ["/opt/atlassian/jira/bin/catalina.sh", "run"]
+CMD ["sh", "-c", "${JIRA_INSTALL}/bin/catalina.sh run"]
