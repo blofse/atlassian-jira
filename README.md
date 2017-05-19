@@ -33,7 +33,7 @@ Pass: *** Entered from earlier
 
 If you are setting up a new instance, you can either use the default or custom setup option on the initial page.
 
-If you are importing an existing instance of JIRA, you will need to select the custom uption, setup the DB and then when prompted for the company information, run the import tool provided with this github repo then use the import tool supplied with JIRA.
+If you are importing an existing instance of JIRA, you will need to select the custom option, setup the DB and then when prompted for the company information, run the import tool provided with this github repo then use the import tool supplied with JIRA.
 
 To export an existing JIRA, use the JIRA export tool to export the instance as an xml.zip file.
 Then, place that file in the following location:

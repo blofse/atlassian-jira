@@ -29,7 +29,10 @@ RUN mv "postgresql-${POSTGRES_VERSION}.jar" "${JIRA_INSTALL}/lib/postgresql-${PO
 RUN sed --in-place "s/java version/openjdk version/g" "${JIRA_INSTALL}/bin/check-java.sh"
 RUN echo -e "\njira.home=${JIRA_HOME}" >> "${JIRA_INSTALL}/atlassian-jira/WEB-INF/classes/jira-application.properties"
 RUN touch -d "@0" "${JIRA_INSTALL}/conf/server.xml"
+
 RUN rm -f "${JIRA_INSTALL}/lib/postgresql-9.1-903.jdbc4-atlassian-hosted.jar"
+RUN rm -f "mysql-connector-java-${MYSQL_VERSION}.tar.gz"
+RUN rm -f "atlassian-jira-software-${JIRA_VERSION}.tar.gz"
 
 # Add jira user and setup permissions
 RUN adduser -D -u 1000 jira
@@ -47,7 +50,7 @@ RUN chmod -R 700 "${JIRA_INSTALL}/work"
 # Expose default HTTP connector port.
 EXPOSE 8080
 
-VOLUME [${JIRA_HOME}]
+VOLUME [ ${JIRA_HOME} ]
 
 WORKDIR ${JIRA_HOME}
 
