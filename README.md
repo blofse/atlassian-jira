@@ -1,4 +1,4 @@
-# atlassian-jira
+# atlassian-jira - A docker image containing version 7.3.6 based on alpine linux, with mysql / postgres support
 A Docker container for Jira Server with both mysql and postgres to be able to be used. 
 This version uses a jira user to run a process rather than a default user.
 The intent is to use this image as a restartable service and run your jira  server.
