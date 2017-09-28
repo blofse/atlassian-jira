@@ -1,14 +1,14 @@
 FROM openjdk:8-alpine
 
 # Configuration variables.
-ENV JIRA_VERSION=7.3.6 \
+ENV JIRA_VERSION=7.5.0 \
     MYSQL_VERSION=5.1.38 \
     POSTGRES_VERSION=9.4.1212 \
     JIRA_HOME=/var/atlassian/application-data/jira \
     JIRA_INSTALL=/opt/atlassian/jira
 
 RUN set -x \
-    && apk add --no-cache wget libressl tar bash \
+    && apk add --no-cache wget libressl tar tzdata bash \
     && mkdir -p "${JIRA_HOME}" \
     && mkdir -p "${JIRA_HOME}/caches/indexes" \
     && mkdir -p "${JIRA_INSTALL}/conf/Catalina" \
@@ -34,7 +34,8 @@ RUN set -x \
     && chmod -R 700 "${JIRA_INSTALL}/conf" \
     && chmod -R 700 "${JIRA_INSTALL}/logs" \
     && chmod -R 700 "${JIRA_INSTALL}/temp" \
-    && chmod -R 700 "${JIRA_INSTALL}/work"
+    && chmod -R 700 "${JIRA_INSTALL}/work" \
+    && cp /usr/share/zoneinfo/Europe/London /etc/localtime
 
 # Expose default HTTP connector port.
 EXPOSE 8080
