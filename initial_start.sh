@@ -22,7 +22,7 @@ docker run \
   --name atlassian-jira \
   -p 8080:8080 \
   -v atlassian-jira-home:/var/atlassian/application-data/jira \
-  -v atlassian-jira-serverconf:/opt/atlassian/jira/conf
+  -v atlassian-jira-serverconf:/opt/atlassian/jira/conf \
   --net atlassian-jira-network \
   -d \
   atlassian-jira
