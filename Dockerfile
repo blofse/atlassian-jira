@@ -1,11 +1,11 @@
-FROM openjdk:8-alpine
+FROM anapsix/alpine-java:8_jdk-dcevm_unlimited
 
 # Configuration variables.
-ENV JIRA_VERSION=7.7.1 \
+ENV JIRA_VERSION=7.11.2 \
     MYSQL_VERSION=5.1.38 \
     POSTGRES_VERSION=9.4.1212 \
     JIRA_HOME=/var/atlassian/application-data/jira \
-    JIRA_INSTALL=/opt/atlassian/jira
+    JIRA_INSTALL=/opt/atlassian/jira 
 
 RUN set -x \
     && apk add --no-cache wget libressl tar tzdata bash \
@@ -18,7 +18,6 @@ RUN set -x \
     && tar -xzvf "atlassian-jira-software-${JIRA_VERSION}.tar.gz" -C "${JIRA_INSTALL}" --strip-components=1 \
     && tar -xzvf "mysql-connector-java-${MYSQL_VERSION}.tar.gz" -C "${JIRA_INSTALL}/lib" --strip-components=1 \
     && mv "postgresql-${POSTGRES_VERSION}.jar" "${JIRA_INSTALL}/lib/postgresql-${POSTGRES_VERSION}.jar" \
-    && sed --in-place "s/java version/openjdk version/g" "${JIRA_INSTALL}/bin/check-java.sh" \
     && echo -e "\njira.home=${JIRA_HOME}" >> "${JIRA_INSTALL}/atlassian-jira/WEB-INF/classes/jira-application.properties" \
     && touch -d "@0" "${JIRA_INSTALL}/conf/server.xml" \
     && rm -f "${JIRA_INSTALL}/lib/postgresql-9.1-903.jdbc4-atlassian-hosted.jar" \
