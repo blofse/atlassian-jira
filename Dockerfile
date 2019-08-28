@@ -1,7 +1,7 @@
 FROM anapsix/alpine-java:8_jdk-dcevm_unlimited
 
 # Configuration variables.
-ENV JIRA_VERSION=7.11.2 \
+ENV JIRA_VERSION=8.3.3 \
     MYSQL_VERSION=5.1.38 \
     POSTGRES_VERSION=9.4.1212 \
     JIRA_HOME=/var/atlassian/application-data/jira \
